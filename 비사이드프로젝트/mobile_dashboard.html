@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NetMood Mobile</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Segoe UI, Arial;
+      background: #f7fafc;
+      margin: 0;
+      padding: 16px
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      max-width: 520px;
+      margin: 0 auto
+    }
+
+    .big-emoji {
+      font-size: 64px;
+      text-align: center
+    }
+
+    .big-label {
+      text-align: center;
+      font-weight: 700;
+      margin-top: 8px
+    }
+
+    .small-msg {
+      text-align: center;
+      color: #666;
+      margin-top: 6px
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 12px
+    }
+
+    .btn {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 0;
+      background: #27d3b2;
+      color: white;
+      font-weight: 700
+    }
+
+    input[type=file] {
+      display: none
+    }
+
+    canvas {
+      max-width: 100%;
+      height: 200px
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="big-emoji" id="emoji">😐</div>
+    <div class="big-label" id="label">불러오는 중...</div>
+    <div class="small-msg" id="advice">업로드로 네트워크 상태를 분석하세요.</div>
+
+    <div style="text-align:center;margin-top:12px">
+      <input type="file" id="file" accept=".csv,.pcap">
+      <label for="file" class="btn">파일 업로드</label>
+    </div>
+
+    <div style="margin-top:14px">
+      <canvas id="chart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const emojiMap = {
+      joy: '😊',
+      stress: '😰',
+      calm: '😌',
+      anger: '😡',
+      anxiety: '😟'
+    };
+
+    let chart;
+    document.getElementById('file').addEventListener('change', async (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const fd = new FormData(); fd.append('file', f);
+      try {
+        document.getElementById('label').textContent = '분석 중...';
+        const res = await fetch('/upload.php', { method: 'POST', body: fd });
+        if (!res.ok) throw new Error('Server error');
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || '분석 실패');
+
+        // top emotion
+        const emoEntries = Object.entries(data.emotions).sort((a, b) => b[1] - a[1]);
+        const top = emoEntries[0][0];
+        document.getElementById('emoji').textContent = emojiMap[top] || '😐';
+        document.getElementById('label').textContent = top.toUpperCase();
+        document.getElementById('advice').textContent = data.advice?.message || '';
+
+        // chart
+        const ctx = document.getElementById('chart').getContext('2d');
+        const labels = data.chartData.labels;
+        const values = data.chartData.data;
+        const colors = data.chartData.colors;
+        if (chart) chart.destroy();
+        chart = new Chart(ctx, { type: 'bar', data: { labels, datasets: [{ data: values, backgroundColor: colors }] }, options: { responsive: true, plugins: { legend: { display: false } } } });
+      } catch (err) {
+        document.getElementById('label').textContent = '오류';
+        document.getElementById('advice').textContent = err.message;
+      }
+    });
+  </script>
+</body>
+
+</html>
