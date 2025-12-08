@@ -123,8 +123,26 @@ export const useHealthData = () => {
 
 스크립트는 Windows와 Unix 모두에서 작동하도록 설계되었습니다. 
 문제가 발생하면:
-- Node.js 버전 확인 (18.x 이상 권장)
-- 관리자 권한으로 실행 시도
+
+1. **경로에 공백이 있는 경우**:
+   - 프로젝트 경로에 공백이 있으면 문제가 될 수 있습니다
+   - 스크립트는 자동으로 처리하지만, 여전히 문제가 있으면:
+   ```powershell
+   # PowerShell에서 직접 실행
+   .\scripts\generate-api.ps1
+   ```
+
+2. **PowerShell 실행 정책 문제**:
+   ```powershell
+   # 현재 세션에서만 실행 정책 변경
+   Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+   npm run generate:api
+   ```
+
+3. **기타 문제**:
+   - Node.js 버전 확인 (18.x 이상 권장)
+   - 관리자 권한으로 실행 시도
+   - CMD 대신 PowerShell 사용 시도
 
 ## 주의사항
 

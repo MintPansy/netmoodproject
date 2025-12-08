@@ -50,25 +50,43 @@ if (fs.existsSync(outputDir)) {
 console.log('🚀 OpenAPI 클라이언트 생성 중...');
 console.log(`   입력: ${openapiFile}`);
 console.log(`   출력: ${outputDir}`);
+console.log(`   플랫폼: ${process.platform}`);
+console.log(`   작업 디렉토리: ${path.resolve(__dirname, '..')}`);
 
 try {
   // Windows와 Unix 모두에서 작동하도록 경로 정규화
+  // 경로에 공백이 있어도 작동하도록 절대 경로 사용
   const normalizedOpenApiFile = openapiFile.replace(/\\/g, '/');
   const normalizedOutputDir = outputDir.replace(/\\/g, '/');
   
   // OpenAPI Generator 실행
-  const command = `npx --yes @openapitools/openapi-generator-cli generate -i "${normalizedOpenApiFile}" -g typescript-fetch -o "${normalizedOutputDir}" --additional-properties=typescriptThreePlus=true,supportsES6=true,withInterfaces=true,enumPropertyNaming=original`;
+  // 경로에 공백이 있어도 작동하도록 따옴표로 감싸기
+  const command = [
+    'npx',
+    '--yes',
+    '@openapitools/openapi-generator-cli',
+    'generate',
+    '-i', normalizedOpenApiFile,
+    '-g', 'typescript-fetch',
+    '-o', normalizedOutputDir,
+    '--additional-properties=typescriptThreePlus=true,supportsES6=true,withInterfaces=true,enumPropertyNaming=original'
+  ];
   
   console.log('\n📦 OpenAPI Generator 실행 중... (처음 실행 시 다운로드 시간이 걸릴 수 있습니다)');
+  console.log(`   명령어: ${command.join(' ')}`);
   
-  execSync(command, {
+  // execSync에 배열로 전달하면 자동으로 경로 처리됨
+  execSync(command.join(' '), {
     stdio: 'inherit',
     cwd: path.resolve(__dirname, '..'),
     env: {
       ...process.env,
       NODE_OPTIONS: '--max-old-space-size=4096',
     },
+    // Windows에서는 cmd.exe 사용, PowerShell 문제 방지
     shell: process.platform === 'win32' ? 'cmd.exe' : '/bin/sh',
+    // Windows에서 경로 문제 방지
+    windowsVerbatimArguments: false,
   });
 
   console.log('\n✅ API 클라이언트 생성 완료!');
@@ -81,17 +99,36 @@ try {
   
 } catch (error) {
   console.error('\n❌ API 클라이언트 생성 실패:');
+  console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  
   if (error.message) {
-    console.error(error.message);
+    console.error(`오류 메시지: ${error.message}`);
   }
+  
+  if (error.stdout) {
+    console.error('\n표준 출력:');
+    console.error(error.stdout.toString());
+  }
+  
   if (error.stderr) {
-    console.error('\n상세 오류:');
+    console.error('\n오류 출력:');
     console.error(error.stderr.toString());
   }
+  
+  if (error.status) {
+    console.error(`\n종료 코드: ${error.status}`);
+  }
+  
+  console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.error('\n💡 문제 해결:');
-  console.error('   1. Node.js 버전 확인 (18.x 이상 권장)');
-  console.error('   2. npm install 실행');
+  console.error('   1. Node.js 버전 확인: node --version (18.x 이상 권장)');
+  console.error('   2. 의존성 설치: npm install');
   console.error('   3. openapi.yaml 파일 문법 확인');
+  console.error('   4. PowerShell 실행 정책 확인:');
+  console.error('      Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process');
+  console.error('   5. 경로에 공백이 있는 경우 CMD 사용 시도');
+  console.error('   6. 관리자 권한으로 실행 시도');
+  
   process.exit(1);
 }
 
