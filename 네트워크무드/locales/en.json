@@ -1,0 +1,115 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close"
+  },
+  "dashboard": {
+    "title": "NetMood Analyzer",
+    "subtitle": "Network Traffic Emotion Analysis Dashboard",
+    "overview": "Overview",
+    "analysis": "Analysis",
+    "upload": "File Upload"
+  },
+  "emotions": {
+    "calm": "Calm",
+    "joy": "Joy",
+    "anxiety": "Anxiety",
+    "anger": "Anger",
+    "sadness": "Sadness",
+    "labels": {
+      "calm": "Calm",
+      "joy": "Joy",
+      "anxiety": "Anxiety",
+      "anger": "Anger",
+      "sadness": "Sadness"
+    },
+    "messages": {
+      "calm": {
+        "high": "Network is very stable.",
+        "medium": "Network is relatively stable.",
+        "low": "Monitor network stability."
+      },
+      "joy": {
+        "high": "Network performance is excellent.",
+        "medium": "Network is operating normally.",
+        "low": "Check network status."
+      },
+      "anxiety": {
+        "high": "Unstable patterns detected in network.",
+        "medium": "Some unstable patterns present.",
+        "low": "Network is relatively stable."
+      },
+      "anger": {
+        "high": "Serious problems detected in network.",
+        "medium": "Network may have issues.",
+        "low": "Network status is good."
+      },
+      "sadness": {
+        "high": "Network performance is degrading.",
+        "medium": "Network performance needs attention.",
+        "low": "Network is operating normally."
+      }
+    }
+  },
+  "health": {
+    "title": "Network Health",
+    "status": {
+      "excellent": "Excellent",
+      "good": "Good",
+      "warning": "Warning",
+      "critical": "Critical"
+    },
+    "stats": {
+      "dataPoints": "Data Points",
+      "activeConnections": "Active Connections",
+      "threatLevel": "Threat Level"
+    },
+    "threatLevel": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    }
+  },
+  "chart": {
+    "title": "Emotion Trend",
+    "timeRange": {
+      "3h": "3 Hours",
+      "1d": "1 Day",
+      "1w": "1 Week",
+      "1m": "1 Month",
+      "3m": "3 Months"
+    },
+    "stats": {
+      "dataPoints": "Data Points",
+      "timeRange": "Time Range"
+    },
+    "empty": "No data available."
+  },
+  "upload": {
+    "title": "File Upload",
+    "dragDrop": "Drag and drop a file or click to select",
+    "format": "CSV file (max {maxSize}MB)",
+    "uploading": "Uploading...",
+    "progress": "Progress: {progress}%",
+    "success": {
+      "title": "Upload Success",
+      "message": "File uploaded successfully. Starting analysis."
+    },
+    "error": {
+      "title": "Upload Error",
+      "message": "An error occurred while uploading the file."
+    }
+  },
+  "alerts": {
+    "threat": {
+      "title": "Threat Emotion Detected",
+      "anger": "Anger emotion exceeded 15%.",
+      "anxiety": "Anxiety emotion exceeded 25%."
+    }
+  }
+}
+

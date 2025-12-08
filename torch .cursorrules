@@ -1,0 +1,94 @@
+# .cursorrules 파일 내용 (프로젝트 루트)
+
+## Project Guidelines
+
+### Technology Stack
+- Frontend: React 18, TypeScript, React Hooks
+- Backend: Node.js, Express, MongoDB
+- UI Library: Recharts for charts
+- Design System: CSS custom properties (--color-*, --space-*, etc.)
+
+### Code Style
+- Use arrow functions instead of function declarations
+- Prefer const/let over var
+- Use destructuring for object/array assignments
+- Keep components under 300 lines
+- Extract custom hooks for complex logic
+
+### Accessibility Standards
+- WCAG 2.1 AA compliance required
+- Color contrast minimum 4.5:1 for normal text
+- All form inputs must have labels
+- Keyboard navigation must work (Tab, Enter, Escape)
+- Add ARIA labels where appropriate
+
+### Testing Requirements
+- Unit tests for utility functions
+- Component tests using React Testing Library
+- Minimum 70% code coverage
+- Test file naming: [filename].test.ts(x)
+
+### Naming Conventions
+- Components: PascalCase (DashboardCard.tsx)
+- Utilities: camelCase (formatDate.ts)
+- Constants: UPPER_SNAKE_CASE (API_BASE_URL)
+- Props interfaces: Component name + "Props" (DashboardCardProps)
+
+### File Structure
+src/
+├── components/ # React components
+├── hooks/ # Custom React hooks
+├── utils/ # Utility functions
+├── types/ # TypeScript types/interfaces
+├── services/ # API services
+├── context/ # React Context
+└── styles/ # Global styles
+
+### Performance Standards
+- Component render time < 16ms (60fps)
+- API calls debounced/throttled where appropriate
+- Images lazy-loaded
+- Bundle size monitored
+
+### Documentation
+- Add JSDoc comments for public functions
+- Document component props with TypeScript
+- Include usage examples in complex components
+
+---
+
+## Cursor 프롬프트 템플릿
+
+### 개선점 1️⃣: UI/UX 및 접근성 향상
+
+**프롬프트 템플릿: WCAG 2.1 AA 컴플라이언스**
+
+**Context:**
+
+- Technology: React 18 + TypeScript
+- Design System: Using CSS variables (--color-primary, --color-text, etc.)
+- Current Issue: Improve accessibility compliance to WCAG 2.1 AA
+
+**Task:**
+
+Analyze the existing Dashboard component and create an improved version that meets WCAG 2.1 AA standards. Specifically:
+
+1. Ensure color contrast ratio of at least 4.5:1 for normal text
+2. Add proper ARIA labels and roles (aria-label, aria-describedby, role attributes)
+3. Implement keyboard navigation (Tab, Enter, Escape keys)
+4. Add focus indicators (outline or focus ring visible on :focus-visible)
+5. Use semantic HTML (header, nav, main, section instead of divs)
+6. Ensure form inputs have associated labels
+
+**Requirements:**
+
+- Use CSS custom properties for focus ring styling
+- Maintain existing visual design
+- Add comments explaining accessibility features
+- Create prop types for new ARIA attributes
+
+**Output:**
+
+- Improved component with accessibility features
+- Before/after comparison of color contrast
+- Key accessibility features list

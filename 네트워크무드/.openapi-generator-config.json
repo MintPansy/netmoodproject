@@ -1,0 +1,12 @@
+{
+  "generatorName": "typescript-fetch",
+  "inputSpec": "./openapi.yaml",
+  "outputDir": "./src/generated/api",
+  "additionalProperties": {
+    "typescriptThreePlus": "true",
+    "supportsES6": "true",
+    "withInterfaces": "true",
+    "enumPropertyNaming": "original"
+  }
+}
+

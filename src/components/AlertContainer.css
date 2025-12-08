@@ -1,0 +1,33 @@
+/* AlertContainer Styles */
+.alert-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;
+  max-width: calc(100vw - 48px);
+}
+
+.alert-container > * {
+  pointer-events: auto;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .alert-container {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    align-items: stretch;
+    max-width: none;
+  }
+
+  .alert-container .alert {
+    min-width: auto;
+    max-width: none;
+  }
+}
+

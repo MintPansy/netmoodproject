@@ -1,0 +1,326 @@
+openapi: 3.0.3
+info:
+  title: NetMood Analyzer API
+  description: 네트워크 트래픽 감정 분석 API
+  version: 2.0.0
+  contact:
+    name: NetMood Support
+    email: support@netmoodanalyzer.com
+
+servers:
+  - url: http://localhost:3000/api
+    description: 로컬 개발 서버
+  - url: https://api.netmoodanalyzer.com/api
+    description: 프로덕션 서버
+
+paths:
+  /health:
+    get:
+      summary: 네트워크 건강도 데이터 조회
+      operationId: getHealthData
+      tags:
+        - Health
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '500':
+          description: 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /emotions:
+    get:
+      summary: 감정 데이터 조회
+      operationId: getEmotionData
+      tags:
+        - Emotions
+      parameters:
+        - name: sessionId
+          in: query
+          schema:
+            type: string
+          description: 세션 ID
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmotionResponse'
+        '500':
+          description: 서버 오류
+
+  /analyze/{sessionId}:
+    get:
+      summary: 분석 결과 조회
+      operationId: getAnalysis
+      tags:
+        - Analysis
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalysisResponse'
+        '404':
+          description: 세션을 찾을 수 없음
+
+  /upload:
+    post:
+      summary: 파일 업로드
+      operationId: uploadFile
+      tags:
+        - Upload
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+        '400':
+          description: 잘못된 요청
+
+  /history/{sessionId}:
+    get:
+      summary: 분석 히스토리 조회
+      operationId: getHistory
+      tags:
+        - History
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+
+  /monitoring/start:
+    post:
+      summary: 모니터링 시작
+      operationId: startMonitoring
+      tags:
+        - Monitoring
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitoringResponse'
+
+  /monitoring/stop/{sessionId}:
+    post:
+      summary: 모니터링 중지
+      operationId: stopMonitoring
+      tags:
+        - Monitoring
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 성공
+
+components:
+  schemas:
+    EmotionData:
+      type: object
+      properties:
+        calm:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        joy:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        anxiety:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        anger:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        sadness:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        timestamp:
+          type: string
+          format: date-time
+
+    HealthScore:
+      type: object
+      properties:
+        score:
+          type: integer
+          minimum: 1
+          maximum: 10
+        status:
+          type: string
+          enum: [excellent, good, warning, critical]
+          example: good
+        message:
+          type: string
+
+    NetworkStats:
+      type: object
+      properties:
+        totalDataPoints:
+          type: integer
+        activeConnections:
+          type: integer
+        threatLevel:
+          type: string
+          enum: [low, medium, high]
+          example: medium
+
+    AnalysisResult:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        emotions:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmotionData'
+        healthScore:
+          $ref: '#/components/schemas/HealthScore'
+        networkStats:
+          $ref: '#/components/schemas/NetworkStats'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+        message:
+          type: string
+        error:
+          type: string
+
+    HealthResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                healthScore:
+                  $ref: '#/components/schemas/HealthScore'
+                networkStats:
+                  $ref: '#/components/schemas/NetworkStats'
+
+    EmotionResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/EmotionData'
+
+    AnalysisResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/AnalysisResult'
+
+    UploadResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                uploadId:
+                  type: string
+                filename:
+                  type: string
+                status:
+                  type: string
+                  enum: [processing, completed, failed]
+                  example: processing
+
+    HistoryResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/AnalysisResult'
+
+    MonitoringResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                sessionId:
+                  type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+        message:
+          type: string
+

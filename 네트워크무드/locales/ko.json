@@ -1,0 +1,115 @@
+{
+  "common": {
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "success": "성공",
+    "cancel": "취소",
+    "confirm": "확인",
+    "close": "닫기"
+  },
+  "dashboard": {
+    "title": "NetMood Analyzer",
+    "subtitle": "네트워크 트래픽 감정 분석 대시보드",
+    "overview": "개요",
+    "analysis": "분석",
+    "upload": "파일 업로드"
+  },
+  "emotions": {
+    "calm": "평온",
+    "joy": "기쁨",
+    "anxiety": "불안",
+    "anger": "화남",
+    "sadness": "슬픔",
+    "labels": {
+      "calm": "평온",
+      "joy": "기쁨",
+      "anxiety": "불안",
+      "anger": "화남",
+      "sadness": "슬픔"
+    },
+    "messages": {
+      "calm": {
+        "high": "네트워크가 매우 안정적입니다.",
+        "medium": "네트워크가 비교적 안정적입니다.",
+        "low": "네트워크 안정성을 모니터링하세요."
+      },
+      "joy": {
+        "high": "네트워크 성능이 우수합니다.",
+        "medium": "네트워크가 정상적으로 작동 중입니다.",
+        "low": "네트워크 상태를 확인하세요."
+      },
+      "anxiety": {
+        "high": "네트워크에 불안정한 패턴이 감지되었습니다.",
+        "medium": "일부 불안정한 패턴이 있습니다.",
+        "low": "네트워크가 비교적 안정적입니다."
+      },
+      "anger": {
+        "high": "네트워크에 심각한 문제가 감지되었습니다.",
+        "medium": "네트워크에 문제가 있을 수 있습니다.",
+        "low": "네트워크 상태가 양호합니다."
+      },
+      "sadness": {
+        "high": "네트워크 성능이 저하되고 있습니다.",
+        "medium": "네트워크 성능에 주의가 필요합니다.",
+        "low": "네트워크가 정상적으로 작동 중입니다."
+      }
+    }
+  },
+  "health": {
+    "title": "네트워크 건강도",
+    "status": {
+      "excellent": "우수",
+      "good": "양호",
+      "warning": "주의 필요",
+      "critical": "위험"
+    },
+    "stats": {
+      "dataPoints": "분석 데이터",
+      "activeConnections": "활성 연결",
+      "threatLevel": "위험 수준"
+    },
+    "threatLevel": {
+      "low": "낮음",
+      "medium": "중간",
+      "high": "높음"
+    }
+  },
+  "chart": {
+    "title": "감정 변화 추이",
+    "timeRange": {
+      "3h": "3시간",
+      "1d": "1일",
+      "1w": "1주",
+      "1m": "1달",
+      "3m": "3달"
+    },
+    "stats": {
+      "dataPoints": "데이터 포인트",
+      "timeRange": "시간 범위"
+    },
+    "empty": "데이터가 없습니다."
+  },
+  "upload": {
+    "title": "파일 업로드",
+    "dragDrop": "파일을 드래그하여 놓거나 클릭하여 선택하세요",
+    "format": "CSV 파일 (최대 {maxSize}MB)",
+    "uploading": "업로드 중...",
+    "progress": "진행률: {progress}%",
+    "success": {
+      "title": "업로드 성공",
+      "message": "파일이 성공적으로 업로드되었습니다. 분석을 시작합니다."
+    },
+    "error": {
+      "title": "업로드 오류",
+      "message": "파일 업로드 중 오류가 발생했습니다."
+    }
+  },
+  "alerts": {
+    "threat": {
+      "title": "위험 감정 감지",
+      "anger": "화남 감정이 15%를 초과했습니다.",
+      "anxiety": "불안 감정이 25%를 초과했습니다."
+    }
+  }
+}
+
